@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MP3 to OGG Converter</title>
+  </head>
+  <body>
+    <form>
+      <div>
+        <input type="file" name="mp3_file" accept=".mp3">
+      </div>
+      <div>
+        <button type="submit">Convert</button>
+      </div>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/convert", true);
+        xhr.responseType = "blob";
+        xhr.onload = function (e) {
+          if (this.status === 200) {
+            const blob = this.response;
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "converted.ogg";
+            link.click();
+          }
+        };
+        xhr.send(new FormData(form));
+      });
+    </script>
+  </body>
+</html>
