@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>MP3 to OGG Converter</title>
-  </head>
-  <body>
-    <form>
-      <div>
-        <input type="file" name="mp3_file" accept=".mp3">
-      </div>
-      <div>
-        <button type="submit">Convert</button>
-      </div>
-    </form>
+<head>
+  <meta charset="UTF-8">
+  <title>MP3 to OGG Converter</title>
+  <style>
+    /* 设置文字居中 */
+    .center {
+      text-align: center;
+    }
 
+    /* 设置背景图 */
+    body {
+      background-image: url('your-background-image-url.jpg');
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="center">
+    <h1>MP3 to OGG Converter</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+      <input type="file" name="mp3_file">
+      <br><br>
+      <input type="submit" value="Convert">
+    </form>
+    <br>
+    <!-- 转换进度条 -->
+    <progress id="progressBar" value="0" max="100"></progress>
+  </div>
+</body>
+</html>
     <script>
       const form = document.querySelector("form");
-
+      const progress = document.getElementById('progressBar');
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-
+        progress.value = 0;
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/convert", true);
         xhr.responseType = "blob";
@@ -29,6 +45,7 @@
             const link = document.createElement("a");
             link.href = window.URL.createObjectURL(blob);
             link.download = "converted.ogg";
+            progress.value = 100;
             link.click();
           }
         };

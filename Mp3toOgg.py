@@ -27,7 +27,7 @@ def convert():
             sound.export('output.ogg', format="ogg")
             response = make_response(send_file('output.ogg', as_attachment=True))
             response.headers["Content-Disposition"] = "attachment; filename=converted.ogg"
-            return response
+            return send_file('output.ogg', as_attachment=True)
         except Exception as e:
             print(e)
             return "Error while converting file"
